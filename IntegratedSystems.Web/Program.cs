@@ -5,7 +5,6 @@ using IntegratedSystems.Repository.Implementation;
 using IntegratedSystems.Repository.Interface;
 using IntegratedSystems.Service.Implementation;
 using IntegratedSystems.Service.Interface;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +25,9 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddTransient<IPatientService, PatientService>();
 builder.Services.AddTransient<IVaccinationCenterService, VaccinationCenterService>();
 builder.Services.AddTransient<IVaccineService, VaccineService>();
+
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 var app = builder.Build();
 
